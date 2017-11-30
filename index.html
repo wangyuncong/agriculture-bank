@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width,maximum-scale=1.0,minimum-scale=1.0,initial-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-compatible" content="IE=edge,chrome=1.0">
+    <meta name="format-detection" content="telephone=no,email=no">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.min.css">
+</head>
+<body>
+    <header>
+        <h1>中国农业银行</h1>
+        <span class="fa fa-search search"></span>
+        <i class="fa fa-list"></i>
+    </header>
+    <section>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide imgbox"><img src="img/banner.png" alt=""></div>
+                <div class="swiper-slide imgbox"><img src="img/banner.png" alt=""></div>
+                <div class="swiper-slide imgbox"><img src="img/banner.png" alt=""></div>
+                <div class="swiper-slide imgbox"><img src="img/banner.png" alt=""></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="message">
+            <p>带电脑萨迪阿森纳费水南搜封面薮猫</p>
+            <p>带电脑萨迪阿森纳费水南搜封面薮猫</p>
+        </div>
+        <div class="fast">
+            <h2>便捷服务</h2>
+        </div>
+        <div class="list">
+            <dl>
+                <dt><img src="" alt=""></dt>
+                <dd></dd>
+            </dl>
+        </div>
+
+    </section>
+    
+</body>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/swiper.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        autoplay:1000
+    });
+    function ajax(url){
+        return new Promise(function(resolve,reject){
+            var xhr = null;
+            var handler = function(){
+                if(xhr.readyState!==4) return;
+                if(xhr.status==200){
+                    resolve(xhr.responseText)
+                }else{
+                    reject(new Error(xhr.statusText  ))
+                }
+            }
+            if(window.XMLHttpRequest){
+                xhr = new XMLHttpRequest();
+            }else{
+                xhr = new ActiveXObject("Microsoft.XMLHTTP")
+            }
+            xhr.open('GET',url,true);
+            xhr.send(); 
+            xhr.onreadystatechange=handler;
+        })
+    }
+    ajax("http://localhost:3000/data").then(function(result){
+        console.log(JSON.parse(result))
+        var data = JSON.parse(result);
+        var str="";
+        for(var i=0;i<data.length;i++){
+            console.log(data[i])
+            str+="<dl class='col-xs-3 col-sm-3 col-md-3'><dt><img src="+data[i].img+"></dt><dd>"+data[i].title+"</dd></dl>"
+        }
+            console.log(str)
+        $(".list").html(str)
+        
+    }).catch(function(error){
+        console.log(err)
+    })
+</script>
+</html>
